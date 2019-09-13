@@ -1,0 +1,34 @@
+---
+- name: Install the OpenJDK 8 package
+  yum:
+    name: java-1.8.0-openjdk-devel
+    state: latest
+
+- name: Enable the Jenkins repository by importing the GPG key using curl.
+  shell: curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
+  args:
+    warn: no
+
+- name: Add the repo to the system.
+  shell: sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+- name: Install the Jenkins package.
+  yum:
+    name: jenkins
+    state: latest
+
+- name: Start the Jenkins service, if not started. Then, enable it.
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+
+- name: Open port 8080 for Jenkins to listen on.
+  firewalld:
+    zone: public
+    port: 8080/tcp
+    permanent: yes
+    state: enabled
+
+- name: Reload the firewall.
+  command: systemctl restart firewalld

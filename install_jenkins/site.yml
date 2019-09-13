@@ -1,0 +1,8 @@
+---
+- name: Install, run & enable Jenkins on the local machine.
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Getting the role
+      include_role: 
+        name: install_jenkins
