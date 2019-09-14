@@ -1,5 +1,5 @@
 ---
-- name: Install, run & enable Jenkins on the local machine.
+- name: Install, run & enable Jenkins on the local machine as root.
   hosts: localhost
   become: yes
   tasks:
